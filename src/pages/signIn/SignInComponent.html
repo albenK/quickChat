@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Sign In</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+    <ion-list>
+      <ion-item>
+        <ion-label floating>Email:</ion-label>
+        <ion-input [(ngModel)]="email" type="text"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Password:</ion-label>
+        <ion-input [(ngModel)]="password" type="password"></ion-input>
+      </ion-item>
+    </ion-list>
+    <div *ngIf="feedbackMessage" padding>
+      {{feedbackMessage}}
+    </div>
+    <div padding>
+      <button (click)="signIn()" [disabled]="isLoading" ion-button clear>
+        Sign In
+      </button>
+
+      <button (click)="goToSignUpPage()" ion-button clear>
+        Don't have an account?
+      </button>
+    </div>
+    
+</ion-content>

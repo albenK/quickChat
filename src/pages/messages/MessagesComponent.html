@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{chatName}}</ion-title>
+
+    <ion-buttons end>
+      <button ion-button clear><ion-icon name="more"></ion-icon></button>
+    </ion-buttons>
+    
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <!--<div class="ionicCard">
+  <ion-card *ngFor="let thisMessage of messages">
+    <ion-card-header>From:albenk234</ion-card-header>
+    <ion-card-content >
+      {{thisMessage}}
+    </ion-card-content>
+
+  </ion-card>
+  </div>
+      -->
+      <ion-card *ngFor="let thisMessage of messages">
+        <ion-card-header>{{"From:username"}}</ion-card-header>
+        <ion-card-content>{{thisMessage}}</ion-card-content>
+      </ion-card>
+ 
+</ion-content>
+
+ <ion-footer>
+  <ion-toolbar>
+    <ion-item>
+      <ion-input type="text" placeholder="Message" [(ngModel)]="message"></ion-input>
+    </ion-item>
+    <ion-buttons end>
+      <button (click)="sendMessage()" [disabled]="message === ''" ion-fab><ion-icon name="send"></ion-icon></button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

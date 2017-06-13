@@ -1,0 +1,42 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>New Chat</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-item>
+        <ion-label floating>Chat name:</ion-label>
+        <ion-input [(ngModel)]="chatName" type="text"></ion-input>
+        
+     </ion-item>
+
+     <ion-item>
+        <ion-label floating>Add Members:</ion-label>
+        <ion-input [(ngModel)]="memberName" type="text"></ion-input>
+     </ion-item>
+     <ion-item *ngIf="errorMessage">{{errorMessage}}</ion-item>
+
+     <ion-item *ngIf="searchResult">
+         {{searchResult.username}}
+         <ion-buttons end>
+             <button (click)="addMember()" ion-button clear>Add</button>
+         </ion-buttons>
+     </ion-item>
+
+     <button (click)="search()" ion-button clear>Search</button>
+    <ion-list>
+        <div padding>People in this chat:</div>
+        <ion-item *ngFor="let thisMember of members" padding>
+            {{thisMember.username}}
+            <ion-buttons end>
+                <button (click)="removeUser(thisMember)" ion-button clear>
+                    <ion-icon name="trash"></ion-icon>
+                </button>
+            </ion-buttons>
+        </ion-item>
+    </ion-list>
+    <button (click)="displayLoadingAndSubmitData()" [disabled]="isDisabled" ion-button>Create Chat</button>
+
+    
+</ion-content>
