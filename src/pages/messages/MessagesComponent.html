@@ -10,21 +10,11 @@
 </ion-header>
 
 <ion-content padding>
-  <!--<div class="ionicCard">
-  <ion-card *ngFor="let thisMessage of messages">
-    <ion-card-header>From:albenk234</ion-card-header>
-    <ion-card-content >
-      {{thisMessage}}
-    </ion-card-content>
-
-  </ion-card>
+  <div *ngFor="let eachMessage of messages" 
+  [ngClass]="{'yourOwnMessageBubble':eachMessage.fromId=== idOfLoggedInUser,'othersMessageBubble':eachMessage.fromId != idOfLoggedInUser}">
+    <p>From:{{eachMessage.fromUsername}}</p>
+    <p>{{eachMessage.message}}</p>
   </div>
-      -->
-      <ion-card *ngFor="let thisMessage of messages">
-        <ion-card-header>{{"From:username"}}</ion-card-header>
-        <ion-card-content>{{thisMessage}}</ion-card-content>
-      </ion-card>
- 
 </ion-content>
 
  <ion-footer>
@@ -33,7 +23,7 @@
       <ion-input type="text" placeholder="Message" [(ngModel)]="message"></ion-input>
     </ion-item>
     <ion-buttons end>
-      <button (click)="sendMessage()" [disabled]="message === ''" ion-fab><ion-icon name="send"></ion-icon></button>
+      <button (click)="sendMessage()" [disabled]="message === ''" color="secondary" ion-fab><ion-icon name="send"></ion-icon></button>
     </ion-buttons>
   </ion-toolbar>
 </ion-footer>

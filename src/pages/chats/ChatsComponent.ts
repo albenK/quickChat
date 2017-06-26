@@ -7,6 +7,8 @@ import { LoadingController,Loading} from 'ionic-angular';
 //import necessary services
 import {AuthenticationService} from "../../services/AuthenticationService";
 import {ChatService} from "../../services/ChatService";
+import {UserInfoService} from "../../services/UserInfoService";
+
 //import necessary components
 import {SignInComponent} from "../signIn/SignInComponent";
 import {NewChatComponent} from "../../assetComponents/NewChatComponent";
@@ -20,11 +22,13 @@ import { Subscription } from 'rxjs/Subscription';
 })
 export class ChatsComponent 
 {
-  allChats:Array<any>;
+  allChats:Array<any>; //array to hold chat objects for logged in user.
   getChats:Subscription;
   loader:Loading;
   constructor(private modalController:ModalController,
-  private authenticationService:AuthenticationService, private chatService:ChatService,
+  private authenticationService:AuthenticationService,
+  private userInfoService:UserInfoService,
+  private chatService:ChatService,
   public navController: NavController,private loadingController:LoadingController) 
   {
     
@@ -48,7 +52,7 @@ export class ChatsComponent
     this.loader.present().then(()=>{this.loadChatData()});
   }
 
-  ionViewDidLeave()
+  ionViewDidLeave() //here we will unsubscribe from our observables..
   {
     if(this.getChats != null)
     {
@@ -57,7 +61,7 @@ export class ChatsComponent
   }
   loadChatData()
   {
-    let idOfUser = this.authenticationService.getUserId();
+    let idOfUser = this.userInfoService.getUserId();
     this.getChats = this.chatService.getChatsByUserId(idOfUser).subscribe((chats)=>
     {
       this.allChats = chats;
@@ -65,7 +69,7 @@ export class ChatsComponent
     },(error:Error)=>{console.log(error.message)});
   }
   
-  goToMessages(chat)
+  goToMessagesComponent(chat)
   {
     this.navController.push(MessagesComponent,
     {chatId:chat.$key,chatName:chat.name,chatMembers:chat.members});

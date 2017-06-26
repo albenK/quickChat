@@ -7,7 +7,14 @@ import {AuthenticationService} from "./AuthenticationService";
 //import rxjs.
 import { Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
-
+/*
+    NOTES: This is just a service to be used within ChatsComponent and NewChatComponent.
+    This service has helpfull methods that we will call to enable the users to create chats(NewChatsComponent)
+    and to load their current chats(ChatsComponent).
+    This is to be injected into the ChatsComponent and NewChatComponent.
+    This service has nothing to do with getting messages, or creating messages in db.
+    MessagingService will take care of messaging.
+*/
 @Injectable()
 export class ChatService
 {
@@ -16,7 +23,7 @@ export class ChatService
     {
     }
 
-    searchInDatabase(nameOfUser:string):Observable<any> // query by name
+    searchInDatabase(nameOfUser:string):Observable<any> // search in db for username
     {
         return this.firebaseDatabase.list("/users/",
         {
@@ -28,13 +35,13 @@ export class ChatService
         });
     }
 
-    createChatInDatabase(chat):firebase.Promise<any>
+    createChatInDatabase(chat):firebase.Promise<any> // used to create a chat object in db
     {
         return this.firebaseDatabase.list("/chats").push(chat).
         then((newChat)=> 
         {
-            let idOfNewChat = newChat.path.o[1];
-            this.addChatRefForEachUser(idOfNewChat,chat["members"]);
+            let idOfNewChat = newChat.path.o[1]; // get the $key of this newly created chat. 
+            this.addChatRefForEachUser(idOfNewChat,chat["members"]); // each user has to know all of the chats their in..
             return true;
         }).
         catch((error:Error)=>{return error});
@@ -42,12 +49,12 @@ export class ChatService
 
     private addChatRefForEachUser(idOfNewChat:string,chatMembers:Object)
     {
-        for(let thisMemberId in chatMembers)
+        for(let thisUserId in chatMembers)
         {
-            this.firebaseDatabase.object("/users/"+thisMemberId+"/chats/"+idOfNewChat).set(true);
+            this.firebaseDatabase.object("/users/"+thisUserId+"/chats/"+idOfNewChat).set(true);
         }
     }
-    private getChatsInfo(listOfChatId):Array<Object>
+    private getChatsInfo(listOfChatId):Array<Object> // called within this.getChatsByUserId()
     {
         let chatsInfo = [];
         for(let index = 0; index < listOfChatId.length; index++)

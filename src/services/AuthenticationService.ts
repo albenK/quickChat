@@ -5,7 +5,7 @@ import * as firebase from 'firebase/app';
 //import rxjs
 import { Observable} from 'rxjs/Observable';
 /*
-    ABOUT: just a class used for firebase authentication. We inject this into the 
+    ABOUT: just a service used for firebase authentication. We inject this into the 
     constructor of other components.
 */
 
@@ -36,7 +36,7 @@ export class AuthenticationService
         }).catch((error:Error)=>{return error;});
     }
 
-    checkUsername(name:string)
+    checkUsername(name:string) // for user signUpComponent
     {
 
         return this.firebaseDatabase.list("/alreadyTakenUsernames",
@@ -50,24 +50,14 @@ export class AuthenticationService
         });
     }
 
-    isUserSignedIn():boolean
+    isUserSignedIn():boolean //checks if user is signed in.
     {
         return this.firebase.auth.currentUser != null;
     }
 
-    getUserId():string //returns logged in users id.
-    {
-       return this.firebase.auth.currentUser.uid;
-    }
+    
 
-    getUser():Observable<any>
-    {
-        return this.firebaseDatabase.object("/users/"+this.getUserId()).map((user)=>
-        {
-            return user;
-        });
-        
-    }
+    
 
     login(email:string,password:string):firebase.Promise<any>
     {

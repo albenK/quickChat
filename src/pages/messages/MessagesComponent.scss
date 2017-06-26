@@ -1,18 +1,25 @@
 messagesComponent
 {
-    .ionicCard
+    .yourOwnMessageBubble
     {
-        height:70%;
-        overflow-x: hidden;
-        overflow-y: auto;
+        width:auto;
+        height:auto;
+        background-color: #4CAF50;
+        font-size:20px;
+        color:#FFFFFF;
+        border-radius: 5px;
+        margin:10px;
+
     }
 
-    #inputMessage
+    .othersMessageBubble
     {
-        width:50%;
-        display:block;
-        margin-top:100%;
-        margin-left:0;
-        background-color: #FF0000;
+        width:auto;
+        height:auto;
+        background-color: #cccccc;
+        font-size:20px;
+        color:#000000;
+        border-radius: 5px;
+        margin: 10px;
     }
 }

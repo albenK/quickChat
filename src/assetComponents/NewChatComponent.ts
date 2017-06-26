@@ -3,12 +3,14 @@ import { Component } from '@angular/core';
 
 //import necessary services..
 import {ChatService} from "../services/ChatService";
+import {UserInfoService} from "../services/UserInfoService";
+
 //import rxjs.
 import { Observable} from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
 //import necessary ionic components
-import { LoadingController,Loading} from 'ionic-angular';
+import { LoadingController,Loading,NavController} from 'ionic-angular';
 @Component({
     selector:"newChatComponent",
     templateUrl:"./NewChatComponent.html"
@@ -22,16 +24,18 @@ export class NewChatComponent
     searchResult:{username,id};
     members:Array<any>;
     searchInDb:Subscription;
+    usernameObservable:Subscription;
     isDisabled:boolean //for disabling create chat button
     loader:Loading;
-    constructor(private chatService:ChatService,
+    constructor(private navController:NavController, private chatService:ChatService,
+    private userInfoService:UserInfoService,
     private loadingController:LoadingController)
     {
     }
     resetValues()
     {
         this.isDisabled = true;
-        this.chatName = "friendly chat";
+        this.chatName = "";
         this.memberName = "";
         this.errorMessage = "";
         this.searchResult = null;
@@ -44,6 +48,12 @@ export class NewChatComponent
     ionViewDidEnter()
     {
         this.resetValues();
+        let idOfSignedInUser = this.userInfoService.getUserId();
+        this.usernameObservable = this.userInfoService.getUserNameById(idOfSignedInUser).
+        subscribe((theUsername)=>
+        {
+            this.members.push({username:theUsername,id:idOfSignedInUser});
+        });
     }
     ionViewDidLeave()
     {
@@ -51,8 +61,15 @@ export class NewChatComponent
         {
             this.searchInDb.unsubscribe();
         }
+        this.usernameObservable.unsubscribe();
         this.resetValues();
         
+    }
+
+    setChatName(event)
+    {
+        this.chatName = event.target.value;
+        this.checkToEnableSubmitButton();
     }
     isAlreadyAMember():boolean //check to see if user already exists in members array.
     {
@@ -69,7 +86,7 @@ export class NewChatComponent
     }
     checkToEnableSubmitButton() //for create chat button
     {
-        (this.members.length >= 2)?
+        (this.members.length >= 2 && this.chatName != "")?
         (this.isDisabled = false):
         (this.isDisabled = true);
     }
@@ -119,8 +136,10 @@ export class NewChatComponent
         {
             
             this.loader.dismiss();
+            this.navController.pop();
         });
     }
+
     displayLoadingAndSubmitData()
     {
        this.loader = this.loadingController.create

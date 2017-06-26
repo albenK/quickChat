@@ -1,13 +1,13 @@
 <ion-header>
     <ion-navbar>
-        <ion-title>New Chat</ion-title>
+        <ion-title>Creat a Chat</ion-title>
     </ion-navbar>
 </ion-header>
 
 <ion-content padding>
     <ion-item>
         <ion-label floating>Chat name:</ion-label>
-        <ion-input [(ngModel)]="chatName" type="text"></ion-input>
+        <ion-input (keyup)= "setChatName($event)" type="text"></ion-input>
         
      </ion-item>
 
@@ -27,10 +27,10 @@
      <button (click)="search()" ion-button clear>Search</button>
     <ion-list>
         <div padding>People in this chat:</div>
-        <ion-item *ngFor="let thisMember of members" padding>
+        <ion-item *ngFor="let thisMember of members; let i = index" padding>
             {{thisMember.username}}
             <ion-buttons end>
-                <button (click)="removeUser(thisMember)" ion-button clear>
+                <button [disabled]="i == 0" (click)="removeUser(thisMember)" ion-button clear>
                     <ion-icon name="trash"></ion-icon>
                 </button>
             </ion-buttons>

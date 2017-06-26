@@ -28,10 +28,18 @@ export class SignInComponent
     private navController:NavController,
     private authenticationService:AuthenticationService)
     {
-        this.checkForUserLogin(); //if user is logged in, then redirect them.
+        
         this.resetValues();
     }
+    ionViewDidEnter()
+    {
+        this.checkForUserLogin(); //if user is logged in, then redirect them.
+    }
 
+    ionViewDidLeave()
+    {
+        this.resetValues();
+    }
     resetValues()
     {
         this.email = "";

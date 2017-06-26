@@ -15,6 +15,8 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 //services
 import {AuthenticationService} from "../services/AuthenticationService";
 import {ChatService} from "../services/ChatService";
+import {UserInfoService} from "../services/UserInfoService";
+import {MessagingService} from "../services/MessagingService";
 
 //import necessary components
 import { MyApp } from "./app.component";
@@ -67,7 +69,9 @@ const appConfigurations =
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthenticationService,
-    ChatService
+    UserInfoService,
+    ChatService,
+    MessagingService
   ]
 })
 export class AppModule {}
