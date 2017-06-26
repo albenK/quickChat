@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { FormsModule }   from '@angular/forms';
-
+import { Network } from '@ionic-native/network';
 import { IonicApp, IonicErrorHandler, IonicModule,NavController } from 'ionic-angular';
 
 
@@ -67,6 +67,7 @@ const appConfigurations =
   providers: [
     StatusBar,
     SplashScreen,
+    Network,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthenticationService,
     UserInfoService,

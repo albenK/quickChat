@@ -148,10 +148,11 @@ export class NewChatComponent
             dismissOnPageChange:true
         });
         this.loader.present().then(()=>{this.submit()});
-    }    
+    }
     removeUser(member)
     {
-        console.log("you want to remove "+member.username);
+        let indexOfThisMember = this.members.indexOf(member);
+        this.members.splice(indexOfThisMember,1);
         this.checkToEnableSubmitButton();
     }
 }

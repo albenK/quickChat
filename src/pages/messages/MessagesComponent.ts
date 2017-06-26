@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild} from '@angular/core';
 //import necessary ionic components
-import { NavController,NavParams,AlertController} from 'ionic-angular';
+import { NavController,NavParams,AlertController,Content} from 'ionic-angular';
 //import rxjs
 import { Subscription } from 'rxjs/Subscription';
 
@@ -25,6 +25,7 @@ export class MessagesComponent
     messagesObservable:Subscription;
     usernameOfLoggedInUser:string;//username of logged in user.
     idOfLoggedInUser:string;//id of logged in user.
+    @ViewChild(Content) content: Content;
     constructor(private alertController:AlertController,private authService:AuthenticationService,
     private userInfoService:UserInfoService,
     private messagingService:MessagingService,
@@ -97,8 +98,10 @@ export class MessagesComponent
         let message = {chatId:this.chatId,fromUsername:this.usernameOfLoggedInUser,fromId:this.idOfLoggedInUser,message:this.message}; 
         this.messagingService.pushMessageToDatabase(message).then((feedback)=>
         {
+            this.content.scrollToBottom(); // scroll to bottom, so user can see new messages.
             this.showErrorAlertIfTheresError(feedback);
         });
+
         this.message = ""; // clear input after sending message.
     }
 }

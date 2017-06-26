@@ -20,23 +20,21 @@
      <ion-item *ngIf="searchResult">
          {{searchResult.username}}
          <ion-buttons end>
-             <button (click)="addMember()" ion-button clear>Add</button>
+             <button (click)="addMember()" ion-button color="secondary" clear>Add</button>
          </ion-buttons>
      </ion-item>
 
-     <button (click)="search()" ion-button clear>Search</button>
+     <button (click)="search()" ion-button color="secondary" clear>Search</button>
     <ion-list>
         <div padding>People in this chat:</div>
         <ion-item *ngFor="let thisMember of members; let i = index" padding>
             {{thisMember.username}}
             <ion-buttons end>
-                <button [disabled]="i == 0" (click)="removeUser(thisMember)" ion-button clear>
+                <button [disabled]="i == 0" (click)="removeUser(thisMember)" color="danger" ion-button clear>
                     <ion-icon name="trash"></ion-icon>
                 </button>
             </ion-buttons>
         </ion-item>
     </ion-list>
-    <button (click)="displayLoadingAndSubmitData()" [disabled]="isDisabled" ion-button>Create Chat</button>
-
-    
+    <button (click)="displayLoadingAndSubmitData()" [disabled]="isDisabled" color="secondary" ion-button>Create Chat</button>
 </ion-content>
